@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
+<title>Referral Engine</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Referrals">
+<meta name="theme-color" content="#0b3d66">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header id="topbar">
+  <div id="brand">🤝 Referral Engine</div>
+  <div id="today-line"></div>
+</header>
+
+<main id="screen"></main>
+
+<nav id="tabs">
+  <button data-tab="dashboard" class="active">📊<span>Dashboard</span></button>
+  <button data-tab="customers">👥<span>Customers</span></button>
+  <button data-tab="referrals">🔗<span>Referrals</span></button>
+</nav>
+
+<div id="sheet-backdrop" class="hidden"></div>
+<div id="sheet" class="hidden"><div id="sheet-body"></div></div>
+<div id="toast" class="hidden"></div>
+
+<script src="app.js"></script>
+</body>
+</html>

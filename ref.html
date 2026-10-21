@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Miami Fixes — Referred by a neighbor</title>
+<meta name="theme-color" content="#0b3d66">
+<style>
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: #0b3d66; color: #fff; min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    padding: 24px 18px; text-align: center;
+  }
+  .card {
+    background: #fff; color: #1c2733; border-radius: 20px;
+    padding: 32px 24px; max-width: 420px; width: 100%;
+    box-shadow: 0 8px 30px rgba(0,0,0,.35);
+  }
+  .card h1 { font-size: 24px; margin: 0 0 8px; line-height: 1.3; }
+  .sub { color: #6b7a8d; font-size: 15px; margin: 12px 0 6px; }
+  .code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-weight: 800; font-size: 34px; letter-spacing: 2px;
+    background: #eef1f5; border-radius: 12px; padding: 14px 18px;
+    display: inline-block; margin: 6px 0 4px; color: #0b3d66;
+  }
+  .btn {
+    display: block; width: 100%; border: 0; border-radius: 14px;
+    background: #0b3d66; color: #fff; text-decoration: none;
+    font-size: 18px; font-weight: 700; padding: 15px; margin: 10px 0;
+  }
+  .btn.green { background: #1e9e6a; }
+  .services { color: #6b7a8d; font-size: 14px; margin-top: 18px; line-height: 1.6; }
+  .logo { font-size: 44px; }
+</style>
+</head>
+<body>
+<div class="card" id="card">
+  <div class="logo">🔧</div>
+  <h1 id="hero">Miami Fixes</h1>
+  <div id="codediv" style="display:none">
+    <div class="sub">Show this code when you contact us:</div>
+    <div class="code" id="code"></div>
+  </div>
+  <div id="buttons"></div>
+  <div class="services">Repairs • Ductwork • Insulation • General handyman<br>Miami, FL</div>
+</div>
+<script>
+(function () {
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+    return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  var q = new URLSearchParams(window.location.search);
+  var c = (q.get('c') || '').trim();
+  var n = (q.get('n') || '').trim();
+  var p = (q.get('p') || '').replace(/\D/g, '');
+  var hero = document.getElementById('hero');
+  var buttons = document.getElementById('buttons');
+  if (c && n) {
+    hero.textContent = '\uD83E\uDD1D ' + n + ' recommends Miami Fixes \uD83D\uDD27';
+    document.getElementById('code').textContent = c;
+    document.getElementById('codediv').style.display = '';
+  } else {
+    hero.textContent = 'Miami Fixes \uD83D\uDD27';
+  }
+  var h = '';
+  if (p) {
+    var body = c ? ('Hi! ' + c + ' referred me \u2014 I need a handyman.') : 'Hi! I need a handyman.';
+    h += '<a class="btn green" href="sms:+1' + esc(p) + '?&body=' + encodeURIComponent(body) + '">\uD83D\uDCE9 Text Aldo</a>';
+    h += '<a class="btn" href="tel:+1' + esc(p) + '">\uD83D\uDCDE Call</a>';
+  } else {
+    h += '<div class="sub">Call or text us to book.</div>';
+  }
+  buttons.innerHTML = h;
+})();
+</script>
+</body>
+</html>
