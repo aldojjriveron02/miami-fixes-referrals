@@ -84,8 +84,9 @@
       '&p=' + encodeURIComponent(DB.settings.businessPhone || '');
   }
   function inviteText(c) {
+    var rw = Number(DB.settings.reward) || 0;
     return 'Hey ' + c.name + '! Aldo from Miami Fixes \uD83D\uDD27 — got a neighbor who needs a handyman? ' +
-      'Send them your personal link, you BOTH get $25 off: ' + refURL(c);
+      'Send them your personal link, you BOTH get $' + rw + ' off: ' + refURL(c);
   }
   function custByCode(code) { return DB.customers.find(function (c) { return c.code === code; }); }
 
