@@ -94,8 +94,8 @@
   function renderDashboard() {
     var total = DB.referrals.length;
     var won = DB.referrals.filter(function (r) { return r.status === 'won'; }).length;
-    var owedN = DB.referrals.filter(function (r) { return r.status === 'won' && !r.rewarded; }).length;
-    var owed = owedN * (Number(DB.settings.reward) || 0);
+    var owed = DB.referrals.filter(function (r) { return r.status === 'won' && !r.rewarded; })
+      .reduce(function (sum, r) { return sum + (r.rewardAmt != null ? r.rewardAmt : (Number(DB.settings.reward) || 0)); }, 0);
     var h = '<div class="section-title">At a glance</div>';
     h += '<div class="card"><div class="row"><span>Total referrals</span><b>' + total + '</b></div>' +
       '<div class="row"><span>Jobs won</span><b>' + won + '</b></div>' +
@@ -146,7 +146,7 @@
         (r.neighborPhone ? '<div><a class="tel" href="tel:' + esc(tel) + '">' + esc(r.neighborPhone) + '</a></div>' : '') +
         '<div class="muted">referred by ' + esc(ref ? ref.name : '—') + ' (' + esc(r.referrerCode || '') + ') - ' + fmtDate(r.date) + '</div>';
       if (r.status === 'won') {
-        card += '<div class="muted">' + (r.rewarded ? '🎁 Reward given' : '🎁 Reward owed: ' + money(DB.settings.reward)) + '</div>';
+        card += '<div class="muted">' + (r.rewarded ? '🎁 Reward given' : '🎁 Reward owed: ' + money(r.rewardAmt != null ? r.rewardAmt : (Number(DB.settings.reward) || 0))) + '</div>';
       }
       card += '<div class="btn-row">';
       if (r.status === 'lead') {
@@ -259,6 +259,7 @@
     setStatus: function (id, st) {
       var r = DB.referrals.find(function (x) { return x.id === id; }); if (!r) return;
       r.status = st;
+      if (st === 'won' && r.rewardAmt == null) r.rewardAmt = Number(DB.settings.reward) || 0;
       persist(); render(currentTab()); toast(st === 'won' ? 'Nice — job won!' : 'Marked lost');
     },
     toggleReward: function (id) {
